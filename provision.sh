@@ -13,21 +13,21 @@ sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/app-pass password s
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2'
 export DEBIAN_FRONTEND=noninteractive
 
+# Upgrade to php5.4
 sudo add-apt-repository -y ppa:ondrej/php5-oldstable
+# Install NodeJS (required for less, sass)
+# https://launchpad.net/~chris-lea/+archive/node.js/
+sudo apt-add-repository -y ppa:chris-lea/node.js
+
 sudo apt-get -y update && sudo apt-get -y dist-upgrade
-sudo apt-get -y install mcrypt acl libicu-dev php-pear php5-intl php5-dev fail2ban git drush php5-curl sendmail mysql-server php5-mysql phpmyadmin
+sudo apt-get -y install mcrypt acl libicu-dev php-pear php5-intl php5-dev fail2ban git drush php5-curl sendmail mysql-server php5-mysql phpmyadmin nodejs
 
 sudo a2enmod rewrite
+sudo npm install -g less
 sudo service apache2 restart
 
 #is this needed? already installed with apt-get above
 #sudo pear install pecl/intl
-
-# Install NodeJS (required for less, sass)
-# https://launchpad.net/~chris-lea/+archive/node.js/
-sudo apt-add-repository -y ppa:chris-lea/node.js
-sudo apt-get update && sudo apt-get -y install nodejs
-sudo npm install -g less
 
 ## other tasks
 # SSL / HTTPS

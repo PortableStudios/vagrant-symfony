@@ -18,82 +18,47 @@ https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.2_x86_64.deb
 # installing Vagrant server
 # https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
 vagrant box add vagrant-symfony precise-server-cloudimg-amd64-vagrant-disk1.box
-mkdir vagrant-symfony && cd vagrant-symfony
+git clone git@github.com:PortableStudios/vagrant-symfony.git
+cd vagrant-symfony
+# copy in the files from
 vagrant init vagrant-symfony
+cp Vagrantfile.symfony Vagrantfile
+vim Vagrantfile
+# edit a unique ip address
 vagrant up
 vagrant ssh
 
-
-# Vagrant box set up
-# https://docs.google.com/a/portable.tv/document/d/1Ti4-w1aM6sWDEtNjLiH4Mpc-D8MTH9m0JGzFYcA2qVU/edit?usp=sharing
-# PHP 5.4 is required for Less. if you are <= 12.04
-sudo add-apt-repository ppa:ondrej/php5-oldstable
-sudo apt-get update && sudo apt-get dist-upgrade
-sudo apt-get update && sudo apt-get dist-upgrade
-sudo apt-get install mcrypt mysql-server acl libicu-dev php-pear php5-intl phpmyadmin sendmail fail2ban git drush php5-curl
-# mysql root pass soe
-# wtf sendmail, such take long time, amaze
-sudo a2enmod rewrite
-sudo service apache2 restart
-sudo pear install pecl/intl
-
-# Install NodeJS (required for less, sass)
-# https://launchpad.net/~chris-lea/+archive/node.js/
-sudo apt-add-repository ppa:chris-lea/node.js
-sudo apt-get update && sudo apt-get install nodejs
-sudo npm install -g less
-node -v
-npm -v
-lessc -v
-
-## other tasks
-# SSL / HTTPS
-# timezone to UTC
-# add dnsmasq or a static host machine /etc/hosts entry
-
-## issues
-# ==> default: Pruning invalid NFS exports. Administrator privileges will be required...
-
-
-
+# fix ip6 lag issues
+sudo vim /etc/default/grub
+# Find the line that contain "GRUB_CMDLINE_LINUX_DEFAULT":
+# GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+# Add "ipv6.disable=1" to the boot option, then save your grub file:
+GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 quiet splash"
+# Finally, update grub:
+sudo update-grub
+# restart
 
 ####################################
-# Installing composer globally
-curl -s https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer.phar
-sudo /usr/local/bin/composer self-update
+# run symfony-install.sh
 
-# add to ~/.bash_aliases
-echo "alias composer='/usr/local/bin/composer.phar'" >> /home/vagrant/.bash_alias
-# reload
-. /home/vagrant/.bash_alias
+# Getting set up
+http://symfony.com/doc/current/book/installation.html
 
-# get permissions in order
-# sudo mkdir /var/vhosts && sudo chown www-data:www-data /var/vhosts && sudo usermod -a -G www-data vagrant
+# Symfony troubleshooting
+nothing to see here...
 
-# install Symfony via composer
-composer create-project symfony/framework-standard-edition /vagrant/symfony 2.4.*
-cd /vagrant/symfony
-sudo chown www-data:www-data -R ./ && sudo find . -type f -exec chmod 664 {} \; && sudo find . -type d -exec chmod 775 {} \;
-sudo chmod +x app/console
-sudo rm -rf app/cache/* app/logs/*
-sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX app/cache app/logs &&
-sudo setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX app/cache app/logs
-php app/check.php
-rm -rf /var/www
-sudo ln -s /vagrant/symfony/web /var/www
+# ===============================================================================================
+Need to clean up from here
 
 # need some host routes here
 #http://localhost/config.php
 #http://localhost/app_dev.php/demo/hello/Fabien
 
-# Symfony troubleshooting
 https://raw.githubusercontent.com/jerram/catena/master/Catena.md
 
 Set up schemas
 SequalPro - www.sequelpro.com
 Linux - https://www.mysql.com/products/workbench/
-
 
 # Generate Entities from db schema
 http://symfony.com/doc/current/cookbook/doctrine/reverse_engineering.html
@@ -113,13 +78,6 @@ app/console generate:doctrine:crud --entity=PortableDemoBundle:PostTag --format=
 app/console generate:doctrine:form PortableDemoBundle:Post
 app/console generate:doctrine:form PortableDemoBundle:PostTag
 app/console generate:doctrine:form PortableDemoBundle:Tag
-
-
-
-
-
-===============================================================================================
-
 
 Reading
 http://symfony.com/doc/current/cookbook/doctrine/reverse_engineering.html
