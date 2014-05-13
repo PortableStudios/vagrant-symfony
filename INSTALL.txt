@@ -49,6 +49,7 @@ lessc -v
 ## other tasks
 # SSL / HTTPS
 # timezone to UTC
+# add dnsmasq or a static host machine /etc/hosts entry
 
 ## issues
 # ==> default: Pruning invalid NFS exports. Administrator privileges will be required...

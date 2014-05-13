@@ -10,16 +10,20 @@ echo "alias composer='/usr/local/bin/composer'" >> /home/vagrant/.bash_alias
 . /home/vagrant/.bash_alias
 
 # # get permissions in order
-sudo mkdir /var/vhosts && sudo chown www-data:www-data /var/vhosts && sudo usermod -a -G www-data vagrant
+#sudo mkdir /var/vhosts && sudo chown www-data:www-data /var/vhosts && sudo usermod -a -G www-data vagrant
 #sudo reboot
 
 # # install Symfony via composer
-sudo composer create-project symfony/framework-standard-edition /var/vhosts/symfony 2.4.*
-cd /var/vhosts/symfony
+sudo composer create-project --prefer-dist -vvv symfony/framework-standard-edition /vagrant/symfony 2.4.*
+cd /vagrant/symfony
 sudo chown www-data:www-data -R ./ && sudo find . -type f -exec chmod 664 {} \; && sudo find . -type d -exec chmod 775 {} \;
 sudo chmod +x app/console
 sudo rm -rf app/cache/* app/logs/*
-sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX app/cache app/logs &&
+sudo setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX app/cache app/logs
 sudo setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX app/cache app/logs
-#rm -rf /var/www
+rm -rf /var/www
 sudo ln -s /vagrant/symfony/web /var/www
+
+## todo
+# add default install to git and replace all of this
+# add a virtualhost to teh default install
