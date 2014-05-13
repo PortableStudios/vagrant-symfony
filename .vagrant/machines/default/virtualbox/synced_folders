@@ -1,0 +1,1 @@
+{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/simon/soe-vagrant"},"/var/www/html":{"owner":"vagrant","group":"www-data","guestpath":"/var/www/html","hostpath":"/var/www/html"}}}

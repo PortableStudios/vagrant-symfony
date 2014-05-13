@@ -12,10 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "soe-vagrant"
-  config.vm.synced_folder "/var/www/html", "/var/www/html", owner: "vagrant", group:"www-data", :mount_options => ["dmode=777,fmode=777"]
+  config.vm.synced_folder "/var/www/html", "/var/www/html", owner: "vagrant", group:"www-data"
 #  config.vm.network "forwarded_port", guest: 80, host: 8080
 config.vm.network "private_network", ip: "10.0.0.100"
-  config.vm.provision "shell", path: "script.sh"
+  config.vm.provision "shell", path: "provision.sh"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
