@@ -7,15 +7,19 @@ Symfony on Vagrant walkthrough
 http://www.vagrantup.com/downloads
 
 # ubuntu
-sudo apt-get install virtualbox vagrant
+sudo apt-get install virtualbox
 sudo apt-get install linux-headers-$(uname -r)
 sudo dpkg-reconfigure virtualbox-dkms
 
+# apt vagrant is old, go get it from http://www.vagrantup.com/downloads
+tested with:
+https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.2_x86_64.deb
+
 # installing Vagrant server
 # https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
-vagrant box add soe-vagrant precise-server-cloudimg-amd64-vagrant-disk1.box
-mkdir soe-vagrant && cd soe-vagrant
-vagrant init soe-vagrant
+vagrant box add vagrant-symfony precise-server-cloudimg-amd64-vagrant-disk1.box
+mkdir vagrant-symfony && cd vagrant-symfony
+vagrant init vagrant-symfony
 vagrant up
 vagrant ssh
 
@@ -45,6 +49,12 @@ lessc -v
 ## other tasks
 # SSL / HTTPS
 # timezone to UTC
+
+## issues
+# ==> default: Pruning invalid NFS exports. Administrator privileges will be required...
+
+
+
 
 ####################################
 # Installing composer globally
